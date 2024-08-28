@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { createEditor } from "slate";
+import { Slate, withReact } from "slate-react";
+import TextEditor from "./Components/TextEditor";
 
-function App() {
+export default function App() {
+  const [editor] = useState(() => withReact(createEditor()));
+  const value = [
+    {
+      type: "paragraph",
+      children: [{ text: "Text Editor" }]
+    }
+  ];
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Slate editor={editor} initialValue={value}>
+        <TextEditor editor={editor} />
+      </Slate>
     </div>
   );
 }
-
-export default App;
