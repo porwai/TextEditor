@@ -24,16 +24,16 @@ const DefaultElement = (props) => {
 
 const Leaf = (props) => {
   return (
-    <span
-      {...props.attributes}
-      style={{
-        fontWeight: props.leaf.bold ? "bold" : "normal",
-        fontStyle: props.leaf.italic ? "italic" : "normal",
-        textDecoration: props.leaf.underline ? "underline" : "none"
-      }}
-    >
-      {props.children}
-    </span>
+      <span
+          {...props.attributes}
+          style={{
+              fontWeight: props.leaf.bold ? "bold" : "normal",
+              fontStyle: props.leaf.italic ? "italic" : "normal",
+              textDecoration: props.leaf.underline ? "underline" : "none",
+          }}
+      >
+          {props.children}
+      </span>
   );
 };
 
@@ -50,15 +50,20 @@ function TextEditor({ editor }) {
   }, []);
 
   function changeMark(mark) {
-    const [match] = Editor.nodes(editor, {
-      match: (n) => n[mark]
-    });
-
+    const isActive = isMarkActive(editor, mark);
     Transforms.setNodes(
-      editor,
-      { [mark]: !match },
-      { match: (n) => Text.isText(n), split: true }
+        editor,
+        { [mark]: isActive ? null : true },
+        { match: Text.isText, split: true }
     );
+  }
+
+  function isMarkActive(editor, mark) {
+    const [match] = Editor.nodes(editor, {
+        match: n => n[mark] === true,
+        universal: true,
+    });
+    return !!match;
   }
 
   function changeType(type) {
@@ -103,6 +108,7 @@ function TextEditor({ editor }) {
       }
     }
   };
+  
   return (
     <div
       style={{
