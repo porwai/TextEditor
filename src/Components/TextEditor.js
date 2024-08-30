@@ -1,81 +1,24 @@
-import { useCallback } from "react";
-import { Editor, Transforms, Text } from "slate";
+// components/TextEditor.js
+import React, { useCallback } from "react";
 import { Editable } from "slate-react";
 import { IconButton } from "@mui/material";
-import {
-  FormatBold,
-  FormatItalic,
-  FormatUnderlined,
-  Code,
-  FormatQuote
-} from "@mui/icons-material";
+import { FormatBold, FormatItalic, FormatUnderlined, Code, FormatQuote } from "@mui/icons-material";
 
-const BlockQuote = (props) => {
-  return <blockquote {...props.attributes}>{props.children}</blockquote>;
-}
-
-const CodeElement = (props) => {
-  return <code {...props.attributes}>{props.children}</code>;
-};
-
-const DefaultElement = (props) => {
-  return <p {...props.attributes}>{props.children}</p>;
-};
-
-const Leaf = (props) => {
-  return (
-      <span
-          {...props.attributes}
-          style={{
-              fontWeight: props.leaf.bold ? "bold" : "normal",
-              fontStyle: props.leaf.italic ? "italic" : "normal",
-              textDecoration: props.leaf.underline ? "underline" : "none",
-          }}
-      >
-          {props.children}
-      </span>
-  );
-};
+import Leaf from "./Leaf";
+import { BlockQuote, CodeElement, DefaultElement } from "./Elements";
+import { changeMark, toggleBlock } from "../utils/editorUtils";
 
 function TextEditor({ editor }) {
   const renderElement = useCallback((props) => {
     switch (props.element.type) {
       case "code":
         return <CodeElement {...props} />;
-      case 'quote':
+      case "quote":
         return <BlockQuote {...props} />;
       default:
         return <DefaultElement {...props} />;
     }
   }, []);
-
-  function changeMark(mark) {
-    const isActive = isMarkActive(editor, mark);
-    Transforms.setNodes(
-        editor,
-        { [mark]: isActive ? null : true },
-        { match: Text.isText, split: true }
-    );
-  }
-
-  function isMarkActive(editor, mark) {
-    const [match] = Editor.nodes(editor, {
-        match: n => n[mark] === true,
-        universal: true,
-    });
-    return !!match;
-  }
-
-  function changeType(type) {
-    const [match] = Editor.nodes(editor, {
-      match: (n) => n.type === type
-    });
-    Transforms.setNodes(
-      editor,
-      { type: match ? null : type },
-      { match: (n) => Editor.isBlock(editor, n) }
-    );
-  }
 
   const renderLeaf = useCallback((props) => {
     return <Leaf {...props} />;
@@ -89,82 +32,50 @@ function TextEditor({ editor }) {
     event.preventDefault();
 
     switch (event.key) {
-      case "b": {
-        changeMark("bold");
+      case "b":
+        changeMark(editor, "bold");
         break;
-      }
-
-      case "i": {
-        changeMark("italic");
+      case "i":
+        changeMark(editor, "italic");
         break;
-      }
-
-      case "u": {
-        changeMark("underline");
+      case "u":
+        changeMark(editor, "underline");
         break;
-      }
-      default: {
+      default:
         break;
-      }
     }
   };
-  
+
+  const handleMarkButtonClick = (mark) => (event) => {
+    event.preventDefault();
+    changeMark(editor, mark);
+  };
+
+  const handleBlockButtonClick = (type) => (event) => {
+    event.preventDefault();
+    toggleBlock(editor, type);
+  };
+
   return (
-    <div
-      style={{
-        backgroundColor: "#171718",
-        color: "#fff",
-        textAlign: "start",
-        padding: "10px"
-      }}
-    >
+    <div style={{ backgroundColor: "#171718", color: "#fff", textAlign: "start", padding: "10px" }}>
       <div style={{ display: `flex`, backgroundColor: "#171718" }}>
-        <IconButton
-          style={{ color: "grey" }}
-          onPointerDown={(e) => {
-            changeMark("bold");
-          }}
-        >
+        <IconButton style={{ color: "grey" }} onPointerDown={handleMarkButtonClick("bold")}>
           <FormatBold />
         </IconButton>
-        <IconButton
-          style={{ color: "grey" }}
-          onPointerDown={(e) => {
-            changeMark("italic");
-          }}
-        >
+        <IconButton style={{ color: "grey" }} onPointerDown={handleMarkButtonClick("italic")}>
           <FormatItalic />
         </IconButton>
-        <IconButton
-          style={{ color: "grey" }}
-          onPointerDown={(e) => {
-            changeMark("underline");
-          }}
-        >
+        <IconButton style={{ color: "grey" }} onPointerDown={handleMarkButtonClick("underline")}>
           <FormatUnderlined />
         </IconButton>
-        <IconButton
-          onPointerDown={(e) => {
-            changeType("code");
-          }}
-          style={{ color: "grey" }}
-        >
+        <IconButton style={{ color: "grey" }} onPointerDown={handleBlockButtonClick("code")}>
           <Code />
         </IconButton>
-        <IconButton
-          onPointerDown={(e) => {
-            changeType("quote");
-          }}
-          style={{ color: "grey" }}
-        >
+        <IconButton style={{ color: "grey" }} onPointerDown={handleBlockButtonClick("quote")}>
           <FormatQuote />
         </IconButton>
       </div>
-      <Editable
-        onKeyDown={onKeyDown}
-        renderLeaf={renderLeaf}
-        renderElement={renderElement}
-      />
+      <Editable onKeyDown={onKeyDown} renderLeaf={renderLeaf} renderElement={renderElement} />
     </div>
   );
 }
