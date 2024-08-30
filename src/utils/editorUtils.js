@@ -45,3 +45,7 @@ export const isBlockActive = (editor, type) => {
   });
   return !!match;
 };
+
+export const getEditorTextContent = (editor) => {
+    return editor.children.map(n => Node.string(n)).join('\n');
+};
