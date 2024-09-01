@@ -1,4 +1,4 @@
-import { Editor, Transforms } from "slate";
+import { Editor, Transforms, Node } from "slate";
 
 export const changeMark = (editor, mark) => {
   const isActive = isMarkActive(editor, mark);
