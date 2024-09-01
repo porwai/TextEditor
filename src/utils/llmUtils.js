@@ -1,5 +1,5 @@
 export const askLLM = async (context, prompt) => {
-    const response = await fetch('/api/ask', {
+    const response = await fetch('http://localhost:5001/api/ask', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
