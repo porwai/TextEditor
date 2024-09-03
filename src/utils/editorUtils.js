@@ -1,6 +1,6 @@
 import { Editor, Transforms, Node } from "slate";
 
-export const changeMark = (editor, mark) => {
+export const toggleMark = (editor, mark) => {
   const isActive = isMarkActive(editor, mark);
   if (isActive) {
     Editor.removeMark(editor, mark);
@@ -10,11 +10,8 @@ export const changeMark = (editor, mark) => {
 };
 
 export const isMarkActive = (editor, mark) => {
-  const [match] = Editor.nodes(editor, {
-    match: (n) => n[mark] === true,
-    universal: true,
-  });
-  return !!match;
+  const marks = Editor.marks(editor);
+  return marks ? marks[mark] === true : false;
 };
 
 export const toggleBlock = (editor, type) => {

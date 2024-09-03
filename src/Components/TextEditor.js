@@ -4,7 +4,7 @@ import { Editable } from "slate-react";
 
 import Leaf from "./Leaf";
 import { BlockQuote, CodeElement, DefaultElement } from "./Elements";
-import { changeMark, toggleBlock, getEditorTextContent } from "../utils/editorUtils";
+import { toggleMark, isMarkActive, toggleBlock, getEditorTextContent } from "../utils/editorUtils";
 import { askLLM } from "../utils/llmUtils";
 import DropdownMenu from "./DropdownMenu";
 import EditorToolbar from "./EditorToolbar";
@@ -44,13 +44,13 @@ function TextEditor({ editor }) {
       event.preventDefault();
       switch (event.key) {
         case "b":
-          changeMark(editor, "bold");
+          toggleMark(editor, "bold");
           break;
         case "i":
-          changeMark(editor, "italic");
+          toggleMark(editor, "italic");
           break;
         case "u":
-          changeMark(editor, "underline");
+          toggleMark(editor, "underline");
           break;
         default:
           break;
@@ -87,11 +87,14 @@ function TextEditor({ editor }) {
     <div className="bg-gray-900 text-white p-4 min-h-screen flex flex-col">
       <div className="max-w mx-auto w-full flex-grow flex flex-col">
         <EditorToolbar
-          onBold={() => changeMark(editor, "bold")}
-          onItalic={() => changeMark(editor, "italic")}
-          onUnderline={() => changeMark(editor, "underline")}
+          onBold={() => toggleMark(editor, "bold")}
+          onItalic={() => toggleMark(editor, "italic")}
+          onUnderline={() => toggleMark(editor, "underline")}
           onCode={() => toggleBlock(editor, "code")}
           onQuote={() => toggleBlock(editor, "quote")}
+          isBoldActive={isMarkActive(editor, "bold")}
+          isItalicActive={isMarkActive(editor, "italic")}
+          isUnderlineActive={isMarkActive(editor, "underline")}
           className="mb-4 p-2 bg-gray-800 rounded-md shadow-md"
         />
         <Editable
