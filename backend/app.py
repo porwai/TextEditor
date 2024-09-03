@@ -21,13 +21,19 @@ def ask_llm():
     prompt = data.get('prompt', '')
 
     try:
-        response = client.completions.create(model="gpt-3.5-turbo",
-        prompt=f"{context}\n\n{prompt}",
-        max_tokens=150,
-        temperature=0.7)
-        text = response.choices[0].text.strip()
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": context},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=150,
+            temperature=0.7
+        )
+        text = response.choices[0].message.content.strip()
         return jsonify({'text': text})
     except Exception as e:
+        app.logger.error(f"Error in ask_llm: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
