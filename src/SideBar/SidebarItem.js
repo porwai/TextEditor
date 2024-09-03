@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ChevronRight, ChevronDown, File, Folder } from 'lucide-react';
+import { ChevronRight, ChevronDown, File } from 'lucide-react';
 
-const SidebarItem = ({ item, level = 0 }) => {
+const SidebarItem = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => {
@@ -12,25 +12,22 @@ const SidebarItem = ({ item, level = 0 }) => {
 
   return (
     <div>
-      <div
-        className={`flex items-center py-1 px-2 hover:bg-gray-100 cursor-pointer text-sm`}
-        style={{ paddingLeft: `${level * 12 + 8}px` }}
+      <div 
+        className={`flex items-center py-2 px-3 rounded-md cursor-pointer hover:bg-gray-200 transition-colors duration-150 ease-in-out ${item.type === 'folder' ? 'font-medium' : ''}`}
         onClick={toggleOpen}
       >
-        {item.type === 'folder' && (
-          <span className="mr-1">
-            {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-          </span>
-        )}
         <span className="mr-2">
-          {item.type === 'folder' ? <Folder size={14} /> : <File size={14} />}
+          {item.type === 'folder' ? 
+            (isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />) : 
+            <File size={18} />
+          }
         </span>
-        <span>{item.name}</span>
+        <span className="text-gray-700">{item.name}</span>
       </div>
       {item.type === 'folder' && isOpen && (
-        <div className="ml-2">
+        <div className="ml-4 mt-1">
           {item.children.map((child, index) => (
-            <SidebarItem key={index} item={child} level={level + 1} />
+            <SidebarItem key={index} item={child} />
           ))}
         </div>
       )}

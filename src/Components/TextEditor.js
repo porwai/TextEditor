@@ -84,28 +84,38 @@ function TextEditor({ editor }) {
 
 
   return (
-    <div style={{ backgroundColor: "#171718", color: "#fff", textAlign: "start", padding: "10px" }}>
-      <EditorToolbar
-        onBold={() => changeMark(editor, "bold")}
-        onItalic={() => changeMark(editor, "italic")}
-        onUnderline={() => changeMark(editor, "underline")}
-        onCode={() => toggleBlock(editor, "code")}
-        onQuote={() => toggleBlock(editor, "quote")}
-      />
-      <Editable
-        ref={editorRef}
-        onKeyDown={onKeyDown}
-        renderLeaf={renderLeaf}
-        renderElement={renderElement}
-      />
-      {showDropdown && <DropdownMenu position={dropdownPosition} onSelect={handleDropdownClick} onAskLLM={handleAskLLMClick} />}
-      
-      {llmResponse && (
-        <div style={{ marginTop: "20px", padding: "10px", backgroundColor: "#222", color: "#fff" }}>
-          <h4>LLM Response:</h4>
-          <p>{llmResponse}</p>
-        </div>
-      )}
+    <div className="bg-gray-900 text-white p-4 min-h-screen flex flex-col">
+      <div className="max-w mx-auto w-full flex-grow flex flex-col">
+        <EditorToolbar
+          onBold={() => changeMark(editor, "bold")}
+          onItalic={() => changeMark(editor, "italic")}
+          onUnderline={() => changeMark(editor, "underline")}
+          onCode={() => toggleBlock(editor, "code")}
+          onQuote={() => toggleBlock(editor, "quote")}
+          className="mb-4 p-2 bg-gray-800 rounded-md shadow-md"
+        />
+        <Editable
+          ref={editorRef}
+          onKeyDown={onKeyDown}
+          renderLeaf={renderLeaf}
+          renderElement={renderElement}
+          className="flex-grow p-4 bg-gray-800 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 overflow-auto"
+        />
+        {showDropdown && (
+          <DropdownMenu 
+            position={dropdownPosition} 
+            onSelect={handleDropdownClick} 
+            onAskLLM={handleAskLLMClick}
+            className="mt-2 bg-gray-800 rounded-md shadow-lg"
+          />
+        )}
+        {llmResponse && (
+          <div className="mt-6 p-4 bg-gray-800 rounded-md shadow-md">
+            <h4 className="text-lg font-semibold mb-2">LLM Response:</h4>
+            <p className="text-gray-300">{llmResponse}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
