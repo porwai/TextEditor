@@ -1,0 +1,22 @@
+.editor-content {
+    padding: 20px;
+  }
+  
+  .editor-toolbar {
+    background-color: #333;
+    padding: 10px;
+    border-bottom: 1px solid #555;
+  }
+  
+  .editor-toolbar button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .editor-toolbar button:hover {
+    background-color: #666;
+  }
