@@ -1,13 +1,14 @@
-import { Editor, Transforms, Node } from "slate";
+import { Editor, Transforms, Node, Element as SlateElement } from "slate";
 
-export const toggleMark = (editor, mark) => {
-  const isActive = isMarkActive(editor, mark);
+export const toggleMark = (editor, format) => {
+  const isActive = isMarkActive(editor, format)
+
   if (isActive) {
-    Editor.removeMark(editor, mark);
+    Editor.removeMark(editor, format)
   } else {
-    Editor.addMark(editor, mark, true);
+    Editor.addMark(editor, format, true)
   }
-};
+}
 
 export const isMarkActive = (editor, mark) => {
   const marks = Editor.marks(editor);
@@ -36,12 +37,22 @@ export const toggleBlock = (editor, type) => {
   }
 };
 
-export const isBlockActive = (editor, type) => {
-  const [match] = Editor.nodes(editor, {
-    match: (n) => n.type === type,
-  });
-  return !!match;
-};
+export const isBlockActive = (editor, format, blockType = 'type') => {
+  const { selection } = editor
+  if (!selection) return false
+
+  const [match] = Array.from(
+    Editor.nodes(editor, {
+      at: Editor.unhangRange(editor, selection),
+      match: n =>
+        !Editor.isEditor(n) &&
+        SlateElement.isElement(n) &&
+        n[blockType] === format,
+    })
+  )
+
+  return !!match
+}
 
 export const getEditorTextContent = (editor) => {
     return editor.children.map(n => Node.string(n)).join('\n');

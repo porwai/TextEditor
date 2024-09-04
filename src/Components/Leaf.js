@@ -1,20 +1,21 @@
 const Leaf = ({ attributes, children, leaf }) => {
-  let style = {};
   if (leaf.bold) {
-    style.fontWeight = 'bold';
+    children = <strong>{children}</strong>
   }
+
+  if (leaf.code) {
+    children = <code>{children}</code>
+  }
+
   if (leaf.italic) {
-    style.fontStyle = 'italic';
+    children = <em>{children}</em>
   }
+
   if (leaf.underline) {
-    style.textDecoration = 'underline';
+    children = <u>{children}</u>
   }
-  
-  return (
-    <span {...attributes} style={style}>
-      {children}
-    </span>
-  );
-};
+
+  return <span {...attributes}>{children}</span>
+}
   
 export default Leaf;  

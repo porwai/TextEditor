@@ -1,13 +1,33 @@
 import React, { useCallback, useState, useRef } from "react";
-import { Transforms, Range } from "slate";
+import isHotkey from 'is-hotkey'
+import {
+  Editor,
+  Transforms,
+  createEditor,
+  Descendant,
+  Element as SlateElement,
+  Range,
+} from 'slate'
+import { withHistory } from 'slate-history'
 import { Editable } from "slate-react";
 
 import Leaf from "./Leaf";
+import Element from "./Elements";
 import { BlockQuote, CodeElement, DefaultElement } from "./Elements";
 import { toggleMark, isMarkActive, toggleBlock, getEditorTextContent } from "../utils/editorUtils";
 import { askLLM } from "../utils/llmUtils";
 import DropdownMenu from "./DropdownMenu";
 import EditorToolbar from "./EditorToolbar";
+
+const LIST_TYPES = ['numbered-list', 'bulleted-list']
+const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
+
+const HOTKEYS = {
+  'mod+b': 'bold',
+  'mod+i': 'italic',
+  'mod+u': 'underline',
+  'mod+`': 'code',
+}
 
 function TextEditor({ editor }) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -15,48 +35,8 @@ function TextEditor({ editor }) {
   const [llmResponse, setLlmResponse] = useState(null); // State to store the LLM response
   const editorRef = useRef();
 
-  const renderElement = useCallback((props) => {
-    switch (props.element.type) {
-      case "code":
-        return <CodeElement {...props} />;
-      case "quote":
-        return <BlockQuote {...props} />;
-      default:
-        return <DefaultElement {...props} />;
-    }
-  }, []);
-
-  const renderLeaf = useCallback((props) => {
-    return <Leaf {...props} />;
-  }, []);
-
-  const onKeyDown = (event) => {
-    if (event.key === "/") {
-      const domRange = window.getSelection().getRangeAt(0);
-      const rect = domRange.getBoundingClientRect();
-      setDropdownPosition({ top: rect.top + window.scrollY + 20, left: rect.left + window.scrollX });
-      setShowDropdown(true);
-    } else if (showDropdown && event.key !== " ") {
-      setShowDropdown(false);
-    }
-
-    if (event.ctrlKey) {
-      event.preventDefault();
-      switch (event.key) {
-        case "b":
-          toggleMark(editor, "bold");
-          break;
-        case "i":
-          toggleMark(editor, "italic");
-          break;
-        case "u":
-          toggleMark(editor, "underline");
-          break;
-        default:
-          break;
-      }
-    }
-  };
+  const renderElement = useCallback(props => <Element {...props} />, [])
+  const renderLeaf = useCallback((props) => { return <Leaf {...props} />; }, []);
 
   const handleDropdownClick = (blockType) => {
     const { selection } = editor;
@@ -87,23 +67,27 @@ function TextEditor({ editor }) {
     <div className="bg-gray-900 text-white p-4 min-h-screen flex flex-col">
       <div className="max-w mx-auto w-full flex-grow flex flex-col">
         <EditorToolbar
-          onBold={() => toggleMark(editor, "bold")}
-          onItalic={() => toggleMark(editor, "italic")}
-          onUnderline={() => toggleMark(editor, "underline")}
-          onCode={() => toggleBlock(editor, "code")}
-          onQuote={() => toggleBlock(editor, "quote")}
-          isBoldActive={isMarkActive(editor, "bold")}
-          isItalicActive={isMarkActive(editor, "italic")}
-          isUnderlineActive={isMarkActive(editor, "underline")}
           className="mb-4 p-2 bg-gray-800 rounded-md shadow-md"
         />
+
         <Editable
-          ref={editorRef}
-          onKeyDown={onKeyDown}
-          renderLeaf={renderLeaf}
           renderElement={renderElement}
+          renderLeaf={renderLeaf}
+          placeholder="Enter some rich text…"
+          spellCheck
+          autoFocus
           className="flex-grow p-4 bg-gray-800 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 overflow-auto"
+          onKeyDown={event => {
+            for (const hotkey in HOTKEYS) {
+              if (isHotkey(hotkey, event)) {
+                event.preventDefault()
+                const mark = HOTKEYS[hotkey]
+                toggleMark(editor, mark)
+              }
+            }
+          }}
         />
+        
         {showDropdown && (
           <DropdownMenu 
             position={dropdownPosition} 

@@ -1,25 +1,47 @@
 import React from "react";
 import { IconButton } from "@mui/material";
 import { FormatBold, FormatItalic, FormatUnderlined, Code, FormatQuote } from "@mui/icons-material";
+import { useSlate } from 'slate-react';
+import { isMarkActive, toggleMark, isBlockActive, toggleBlock } from "../utils/editorUtils";
 
-const EditorToolbar = ({ onBold, onItalic, onUnderline, onCode, onQuote, isBoldActive, isItalicActive, isUnderlineActive }) => {
+const MarkButton = ({ format, icon }) => {
+  const editor = useSlate();
+  return (
+    <IconButton
+      style={{ color: isMarkActive(editor, format) ? "white" : "grey" }}
+      onMouseDown={(event) => {
+        event.preventDefault();
+        toggleMark(editor, format);
+      }}
+    >
+      {icon}
+    </IconButton>
+  );
+};
+
+const BlockButton = ({ format, icon }) => {
+  const editor = useSlate();
+  return (
+    <IconButton
+      style={{ color: isBlockActive(editor, format) ? "white" : "grey" }}
+      onMouseDown={(event) => {
+        event.preventDefault();
+        toggleBlock(editor, format);
+      }}
+    >
+      {icon}
+    </IconButton>
+  );
+};
+
+const EditorToolbar = () => {
   return (
     <div style={{ display: `flex`, backgroundColor: "#171718" }}>
-      <IconButton style={{ color: isBoldActive ? "white" : "grey" }} onPointerDown={onBold}>
-        <FormatBold />
-      </IconButton>
-      <IconButton style={{ color: isItalicActive ? "white" : "grey" }} onPointerDown={onItalic}>
-        <FormatItalic />
-      </IconButton>
-      <IconButton style={{ color: isUnderlineActive ? "white" : "grey" }} onPointerDown={onUnderline}>
-        <FormatUnderlined />
-      </IconButton>
-      <IconButton style={{ color: "grey" }} onPointerDown={onCode}>
-        <Code />
-      </IconButton>
-      <IconButton style={{ color: "grey" }} onPointerDown={onQuote}>
-        <FormatQuote />
-      </IconButton>
+      <MarkButton format="bold" icon={<FormatBold />} />
+      <MarkButton format="italic" icon={<FormatItalic />} />
+      <MarkButton format="underline" icon={<FormatUnderlined />} />
+      <MarkButton format="code" icon={<Code />} />
+      <BlockButton format="block-quote" icon={<FormatQuote />} />
     </div>
   );
 };
