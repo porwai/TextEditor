@@ -2,7 +2,7 @@ import React from "react";
 
 const DropdownItem = ({ onClick, children, explanation, className = "" }) => (
   <button
-    className={`w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors duration-150 ease-in-out ${className}`}
+    className={`w-full text-left px-4 py-2 hover:bg-gray-300 transition-colors duration-150 ease-in-out ${className}`}
     onClick={onClick}
   >
     <div className="font-medium">{children}</div>
@@ -22,7 +22,7 @@ const DropdownMenu = ({ position, onSelect, onAskLLM }) => {
 
   return (
     <div
-      className="absolute bg-white text-black rounded-md shadow-lg z-50 w-64 py-1 overflow-hidden border border-gray-200"
+      className="absolute bg-white text-black rounded-md shadow-lg z-50 w-64 py-1 overflow-hidden border-2 border-gray-300 shadow-xl shadow-gray-400/75"
       style={{ top: position.top, left: position.left }}
     >
       {menuItems.map((item, index) => (

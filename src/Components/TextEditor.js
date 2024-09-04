@@ -79,6 +79,14 @@ function TextEditor({ editor }) {
                 toggleMark(editor, mark)
               }
             }
+            if (event.key === "/") {
+              const domRange = window.getSelection().getRangeAt(0);
+              const rect = domRange.getBoundingClientRect();
+              setDropdownPosition({ top: rect.top + window.scrollY + 20, left: rect.left + window.scrollX });
+              setShowDropdown(true);
+            } else if (showDropdown && event.key !== " ") {
+              setShowDropdown(false);
+            }        
           }}
         />
         
