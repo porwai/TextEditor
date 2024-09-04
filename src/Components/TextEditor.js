@@ -1,20 +1,14 @@
 import React, { useCallback, useState, useRef } from "react";
 import isHotkey from 'is-hotkey'
 import {
-  Editor,
   Transforms,
-  createEditor,
-  Descendant,
-  Element as SlateElement,
   Range,
 } from 'slate'
-import { withHistory } from 'slate-history'
 import { Editable } from "slate-react";
 
 import Leaf from "./Leaf";
 import Element from "./Elements";
-import { BlockQuote, CodeElement, DefaultElement } from "./Elements";
-import { toggleMark, isMarkActive, toggleBlock, getEditorTextContent } from "../utils/editorUtils";
+import { toggleMark, toggleBlock, getEditorTextContent } from "../utils/editorUtils";
 import { askLLM } from "../utils/llmUtils";
 import DropdownMenu from "./DropdownMenu";
 import EditorToolbar from "./EditorToolbar";
@@ -64,7 +58,7 @@ function TextEditor({ editor }) {
 
 
   return (
-    <div className="bg-gray-900 text-white p-4 min-h-screen flex flex-col">
+    <div className="bg-gray-900 text-black p-4 min-h-screen flex flex-col">
       <div className="max-w mx-auto w-full flex-grow flex flex-col">
         <EditorToolbar
           className="mb-4 p-2 bg-gray-800 rounded-md shadow-md"
@@ -76,7 +70,7 @@ function TextEditor({ editor }) {
           placeholder="Enter some rich text…"
           spellCheck
           autoFocus
-          className="flex-grow p-4 bg-gray-800 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 overflow-auto"
+          className="flex-grow p-4 bg-white rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 overflow-auto"
           onKeyDown={event => {
             for (const hotkey in HOTKEYS) {
               if (isHotkey(hotkey, event)) {

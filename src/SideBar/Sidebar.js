@@ -22,7 +22,7 @@ const Sidebar = () => {
     ];
   
     return (
-      <div className="w-64 h-screen bg-white border-r border-gray-200 overflow-y-auto">
+      <div className="w-64 h-screen bg-gray-150 border-r border-gray-200 overflow-y-auto">
         <div className="p-4">
           <h2 className="text-lg font-semibold mb-4">My Workspace</h2>
           {sidebarData.map((item, index) => (
