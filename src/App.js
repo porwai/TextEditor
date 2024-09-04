@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { createEditor } from "slate";
 import { Slate, withReact } from "slate-react";
+import { withHistory } from 'slate-history'
 import TextEditor from "./Components/TextEditor";
 import './styles.css';
 import Sidebar from "./SideBar/Sidebar";
 
 export default function App() {
 
-  const [editor] = useState(() => withReact(createEditor()));
+  const editor = useMemo(() => withHistory(withReact(createEditor())), [])
   const value = [
     {
       type: "paragraph",
