@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# Text Editor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Text Editor is a versatile workspace application that combines note-taking, knowledge management, and collaboration features inspired by Notion.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Hierarchical page structure for organized note-taking
+- Rich text editing with support for markdown
+- Customizable templates for various content types
+- Real-time collaboration and sharing capabilities
+- Database functionality with customizable views (table, board, calendar, etc.)
+- Task management with to-do lists and deadlines
+- File attachment and embedding
+- Search functionality across all content
+- Dark and light modes
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/NotionClone.git
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Navigate to the project directory
+cd NotionClone
 
-### `npm test`
+# Install dependencies
+npm install
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Start the development server
+npm start
+```
 
-### `npm run build`
+## Usage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Create an account or log in
+2. Create a new page by clicking the "+" button
+3. Use the rich text editor to add content
+4. Organize pages using the sidebar
+5. Create databases and customize views
+6. Share pages and collaborate with team members
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Configuration
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Users can customize their workspace by:
+- Changing themes (dark/light mode)
+- Creating and managing templates
+- Configuring notification preferences
+- Setting up integrations with other tools
 
-### `npm run eject`
+## Keyboard Shortcuts
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+| Shortcut | Action |
+|----------|--------|
+| Ctrl + N | New page |
+| Ctrl + P | Quick search |
+| Ctrl + Shift + L | Toggle light/dark mode |
+| Cmd + / (Mac) or Ctrl + / (Windows) | Show all keyboard shortcuts |
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Contributing
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+We welcome contributions to NotionClone! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## License
 
-## Learn More
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Acknowledgments
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Inspired by Notion (https://www.notion.so)
+- Built with React, Flask, Slate
 
-### Code Splitting
+## Contact
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Pongsapak Waiwitlikhit - pw5115@princeton.edu
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

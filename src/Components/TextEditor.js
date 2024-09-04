@@ -13,9 +13,6 @@ import { askLLM } from "../utils/llmUtils";
 import DropdownMenu from "./DropdownMenu";
 import EditorToolbar from "./EditorToolbar";
 
-const LIST_TYPES = ['numbered-list', 'bulleted-list']
-const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
-
 const HOTKEYS = {
   'mod+b': 'bold',
   'mod+i': 'italic',
@@ -55,7 +52,6 @@ function TextEditor({ editor }) {
     }
     setShowDropdown(false);
   };
-
 
   return (
     <div className="bg-gray-900 text-black p-4 min-h-screen flex flex-col">
@@ -107,6 +103,8 @@ function TextEditor({ editor }) {
       </div>
     </div>
   );
+
+  
 }
 
 export default TextEditor;
