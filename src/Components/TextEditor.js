@@ -53,7 +53,6 @@ function TextEditor({ editor }) {
     setShowDropdown(false);
   };
 
-
   return (
     <div className="bg-gray-900 text-black p-4 min-h-screen flex flex-col">
       <div className="max-w mx-auto w-full flex-grow flex flex-col">
@@ -104,6 +103,8 @@ function TextEditor({ editor }) {
       </div>
     </div>
   );
+
+  
 }
 
 export default TextEditor;
