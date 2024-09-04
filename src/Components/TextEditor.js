@@ -13,9 +13,6 @@ import { askLLM } from "../utils/llmUtils";
 import DropdownMenu from "./DropdownMenu";
 import EditorToolbar from "./EditorToolbar";
 
-const LIST_TYPES = ['numbered-list', 'bulleted-list']
-const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
-
 const HOTKEYS = {
   'mod+b': 'bold',
   'mod+i': 'italic',
